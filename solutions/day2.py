@@ -5,7 +5,7 @@ ls = []
 for l in data.splitlines():
     ls.append([int(x) for x in l.split(" ")])
 
-# <-----------------------------  PART 1  ----------------------------->
+# <-------------------------------  PART 1  ------------------------------->
 def check_increasing_decreasing(level):
     increasing = True
     for i in range(1,len(level)):
@@ -40,7 +40,7 @@ for level in ls:
         cnt += 1
 print(cnt)
 
-# <-----------------------------  PART 1  ----------------------------->
+# <------------------------------  PART 2  ------------------------------->
 res = 0
 while ls:
     level = ls.pop(0)
