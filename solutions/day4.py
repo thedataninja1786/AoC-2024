@@ -10,7 +10,7 @@ res = 0
 for line in data.splitlines():
     grid.append(list(line))
 
-# part 1
+# <----------------------------------  PART 1  ----------------------------------->
 for i in range(len(grid)):
     for j in range(len(grid[0])):
         
@@ -29,7 +29,7 @@ for i in range(len(grid)):
                     res += 1    
 print(res)
 
-# part 2
+# <----------------------------------  PART 2  ----------------------------------->
 
 def check_xmas(i,j):
     if i - 1 >= 0 and j - 1 >= 0 and i + 1 < len(grid) and j + 1 < len(grid[0]):
