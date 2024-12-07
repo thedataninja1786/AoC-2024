@@ -1,4 +1,3 @@
-import ast
 from collections import defaultdict
 
 with open("data/day7.txt","r") as f:
@@ -7,7 +6,6 @@ with open("data/day7.txt","r") as f:
 tmp = []
 
 for line in data.splitlines():
-    #print(line.split(":"))
     val = int(line.split(":")[0].strip())
     ls = "".join(line.split(":")[1:])
     ls = [x.strip() for x in ls.split(" ") if x]
