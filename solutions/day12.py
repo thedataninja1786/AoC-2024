@@ -89,3 +89,76 @@ for k,_ in point_loc.items():
     #print(a,p)
     s += (a*p)
 print(s)
+
+# part 2
+data = """AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA"""
+
+grid = [list(x) for x in data.splitlines()]
+
+def bfs(i,j,n):
+    global t 
+    t = grid[i][j]
+    grid[i][j] = str(n)
+    q = [(i,j)]
+    coords = [[1,0],[-1,0],[0,1],[0,-1]]
+    while q:
+        x,y = q.pop(0)
+        for c in coords:
+            dx = x + c[0]
+            dy = y + c[1]
+            if (dx,dy) not in visited and 0 <= dx < len(grid) and 0 <= dy < len(grid[0]) and grid[dx][dy] == t:
+                q.append((dx,dy))
+                visited.add((dx,dy))
+                grid[dx][dy] = str(n)
+
+n = 0
+t = grid[0][0]
+visited = set()
+for i in range(len(grid)):
+    for j in range(len(grid[0])):
+        if (i,j) in visited: 
+            continue
+        if grid[i][j] != t:
+            n += 1
+        
+        bfs(i,j,n)
+        t = str(n)
+        visited.add((i,j))
+
+
+for l in grid:
+    print(l)
+
+c = defaultdict(list)
+for i in range(len(grid)):
+    for j in range(len(grid[0])):
+        c[grid[i][j]].append((i,j))
+
+def estimate(k):
+    cnt = 0 
+    ls = c[k]
+    print(ls)
+    a = max(1,len(ls))
+    dirs = [[1,0],[-1,0],[0,1],[0,-1]]
+    for i,j in ls:
+        s = 4
+        for d in dirs:
+            x = i + d[0]
+            y = j + d[1]
+            if (0 <= x < len(grid) and 0 <= y < len(grid[0])) and (x,y) in ls:
+                s -= 1
+        cnt += s
+    return a,cnt
+
+s = 0
+for k in c.keys():
+    a,p = estimate(k)
+    print(a,p)
+    s += (a*p)
+
+print(s)
