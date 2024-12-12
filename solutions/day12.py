@@ -3,42 +3,50 @@ from collections import defaultdict
 with open("data/day12.txt","r") as f:
     data = f.read()
 
-
-
 grid = [list(x) for x in data.splitlines()]
 
 # Plants of the same type can appear in multiple separate regions, and regions can even appear within other regions.
 
-# find unique regions 
-def bfs(i,j,n):
-    global t 
-    t = grid[i][j]
-    grid[i][j] = str(n)
-    q = [(i,j)]
-    coords = [[1,0],[-1,0],[0,1],[0,-1]]
-    while q:
-        x,y = q.pop(0)
-        for c in coords:
-            dx = x + c[0]
-            dy = y + c[1]
-            if (dx,dy) not in visited and 0 <= dx < len(grid) and 0 <= dy < len(grid[0]) and grid[dx][dy] == t:
-                q.append((dx,dy))
-                visited.add((dx,dy))
-                grid[dx][dy] = str(n)
+def process_grid(grid):
+    def bfs(i,j,n):
+        global t 
+        t = grid[i][j]
+        grid[i][j] = str(n)
+        q = [(i,j)]
+        coords = [[1,0],[-1,0],[0,1],[0,-1]]
+        while q:
+            x,y = q.pop(0)
+            for c in coords:
+                dx = x + c[0]
+                dy = y + c[1]
+                if (dx,dy) not in visited and 0 <= dx < len(grid) and 0 <= dy < len(grid[0]) and grid[dx][dy] == t:
+                    q.append((dx,dy))
+                    visited.add((dx,dy))
+                    grid[dx][dy] = str(n)
 
-n = 0
-t = grid[0][0]
-visited = set()
-for i in range(len(grid)):
-    for j in range(len(grid[0])):
-        if (i,j) in visited: 
-            continue
-        if grid[i][j] != t:
-            n += 1
-        
-        bfs(i,j,n)
-        t = str(n)
-        visited.add((i,j))
+    n = 0
+    t = grid[0][0]
+    visited = set()
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if (i,j) in visited: 
+                continue
+            if grid[i][j] != t:
+                n += 1
+            
+            bfs(i,j,n)
+            t = str(n)
+            visited.add((i,j))
+
+
+    c = defaultdict(list)
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            c[grid[i][j]].append((i,j))
+
+    return grid
+
+grid = process_grid(grid)
 
 
 # part 1
@@ -100,39 +108,7 @@ AAAAAA"""
 
 grid = [list(x) for x in data.splitlines()]
 
-def bfs(i,j,n):
-    global t 
-    t = grid[i][j]
-    grid[i][j] = str(n)
-    q = [(i,j)]
-    coords = [[1,0],[-1,0],[0,1],[0,-1]]
-    while q:
-        x,y = q.pop(0)
-        for c in coords:
-            dx = x + c[0]
-            dy = y + c[1]
-            if (dx,dy) not in visited and 0 <= dx < len(grid) and 0 <= dy < len(grid[0]) and grid[dx][dy] == t:
-                q.append((dx,dy))
-                visited.add((dx,dy))
-                grid[dx][dy] = str(n)
-
-n = 0
-t = grid[0][0]
-visited = set()
-for i in range(len(grid)):
-    for j in range(len(grid[0])):
-        if (i,j) in visited: 
-            continue
-        if grid[i][j] != t:
-            n += 1
-        
-        bfs(i,j,n)
-        t = str(n)
-        visited.add((i,j))
-
-
-for l in grid:
-    print(l)
+grid = process_grid(grid)
 
 c = defaultdict(list)
 for i in range(len(grid)):
@@ -155,10 +131,3 @@ def estimate(k):
         cnt += s
     return a,cnt
 
-s = 0
-for k in c.keys():
-    a,p = estimate(k)
-    print(a,p)
-    s += (a*p)
-
-print(s)
