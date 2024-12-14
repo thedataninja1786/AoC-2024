@@ -40,10 +40,8 @@ def process_data():
         grid[i][j] += 1
     
     return grid,positions,velocities
-
+# <---------------------------------------------------  PART 1  --------------------------------------------------->
 grid,positions,velocities = process_data()
-
-# part 1
 def simulate(grid,N):
     for _ in range(N):
         for k,v in positions.items():
@@ -86,12 +84,10 @@ for l in ls:
 res.append(s)
 print(prod(res))
 
-# part 2
+# <---------------------------------------------------  PART 2  --------------------------------------------------->
 grid,positions,velocities = process_data()
-
-
 cnt = 0
-
+# unknown shape, write to file and check
 for _ in range(100000):
     for k,v in positions.items():
         i,j = v
@@ -108,7 +104,7 @@ for _ in range(100000):
         l = "".join(["*" if x != 0 else "." for x in l])
         tmp += l + "\n"
 
-    with open("dummy.txt","a") as f:
+    with open("grids.txt","a") as f:
         f.write(str(cnt) + "\n")
         f.write(tmp + "\n")
 
